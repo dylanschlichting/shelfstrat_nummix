@@ -1,49 +1,27 @@
-# README #
-
-### Shelfstrat - idealized coastal shelf model.
-
-Developed by Rob Hetland for Hetland (2017) JPO. Modified here for parameter
-space exploration of numerical salt mixing. Original documentation below, will
-be updated in Q1-Q2 2023. 
-
-commands to run the shelf eddy scenarios. Key files are
+# Shelfstrat - Idealized simulations of submesoscale baroclinic instabilities over sloping bathymetry
+```shelfstrat``` contains information required to run idealized ROMS simulations of submesoscale baroclinic instabilities over sloping bathymetry. Developed by Rob Hetland for Hetland (2017) JPO. Model setup modified by Dylan Schlichting for exploration of numerical salinity mixing and surface fronts. ROMS is configured as part of COAWST ver. 3.7 for these simulations. 
+## Running the model 
+Six input files are required to run ```shelfstrat```: the numerical grid, initial conditions, forcing (if applicable), a header file used to compile the model, a ROMS input file, and a slurm job script. The simulations are run on the Grace cluster from TAMU's HPRC resources. The key scripts and files are 
 
     grd/make_grd.py
     ini/make_ini.py
     frc/make_frc.py
+    project/shelfstrat.h
+    project/ocean_shelfstrat_basecase_f_43N.in
+    project/shelfstrat_job.slurm
 
-These files are run automatically by the script
-
-    run_case.py
-
-This file takes arguments and runs a case:
-
-    usage: run_case.py [-h] [--z0 Z0] [--M2 M2] [--N2 N2] [--f F] [--sustr SUSTR]
-                   [--svstr SVSTR] [--Lm LM] [--rootdir ROOTDIR]
-
-    optional arguments:
-      -h, --help         show this help message and exit
-      --z0 Z0            Bottom roughness parameter (default=0.003)
-      --M2 M2            Horizontal stratification parameter (default=1e-6)
-      --N2 N2            Vertical stratification parameter (default=1e-6)
-      --f F              Coreolis parameter (default=1e-4)
-      --sustr SUSTR      Along-shore wind stress (default=0.0)
-      --svstr SVSTR      Along-shore wind stress (default=0.0)
-      --Lm LM            Number of x-grid points
-      --rootdir ROOTDIR  Simulation root directory.
-
-E.g., the 'base' case can be run with the following command:
-
-    mkdir simulations
-    ./run_case.py --rootdir simulations
-
-The case can be modified by something like
-
-    ./run_case.py --M2 1e-5 --N2 1e-4 --f 3.33e-3 --rootdir simulations
-
-This script can then be run over a wide parameter space running the script
-
-    run_space.py
-
-Edit this script to create the parameter space you want. This script uses qsub to
-run the various cases, so the qsub script should be edited as well.
+## Model setup
+Key points of the unforced and wind-forced configurations are documented for reference:
+> - Standard output frequency: 1 hour
+> - 500 m isotropic lateral grid resolution
+> - 192 x 192 x 30 grid points
+> > - ```Vtransform=2,Vstretching=4```, ```\theta_s = 5.0, \theta_b = 0.4```
+> > - Tested ```\theta_s = 3.0, \theta_b = 1``` and ```\theta_s = 2.5, \theta_b = 2.5``` for vertical resolution experiments
+> > - Changed number of vertical layers to 60 and 120 for vertical resolution experiments
+> - Online timestep ```dt= 30 s```
+> - MPDATA for momentum and tracer advection
+> > - HSIMT and U3HC4 tested for tracer advection experiments (in progress)
+> - No explicit lateral mixing applied 
+> - Calculates online physical and numerical mixing with average files.
+> > - Physical mixing is the destruction of salinity variance $\chi^s = 2 \mathbf{\kappa} \left(\nabla s \right)^2$ (Osborn & Cox, 1972)
+> > - Numerical mixing is defined using the Burchard and Rennau (2008) O.M. algorithm 
