@@ -24,7 +24,7 @@ Key points of the unforced and wind-forced configurations are documented for ref
 > - No explicit lateral mixing (viscosity or diffusivity coefficients) applied
 > - Calculates online physical and numerical mixing with average files.
 > > - Physical mixing is the destruction of salinity variance $\chi^s = 2 \mathbf{\kappa} \left(\nabla s \right)^2$ (Osborn & Cox, 1972)
-> > - Numerical mixing is defined using the Burchard and Rennau (2008) *O.M.* algorithm: $\mathcal{M}__{num} = \frac{\mathcal{A}(s^2)-(\mathcal{A})^2}{\Delta t}$,
+> > - Numerical mixing is defined using the Burchard and Rennau (2008) *O.M.* algorithm: $\mathcal{M}_{num} = \frac{\mathcal{A}(s^2)-(\mathcal{A})^2}{\Delta t}$,
 > > > - $\mathcal{A}$ is the advection operator
 > > > - $\Delta t$ is the model timestep
 
