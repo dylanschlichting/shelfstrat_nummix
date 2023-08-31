@@ -34,3 +34,7 @@ Key analyses are presented here. There are scripts and notebooks to calculate
 > - Volume-integrated EKE, MKE, and TKE
 > - Mean vertical salinity gradient $|\partial_z s|$ and vertical salinity diffusivity $\kappa_s$ ```Aks```
 > - Analyze mixing in salinity coordinates
+
+## Misc notes
+Miscellaneous analysis and code tests are also stored in this repository. For example,
+> - ```/project/lmd_tests/``` contains a 15 day test run where the vertical mixing scheme is changed from GLS to KPP (Large et al., 1994) for a postdoc at PNNL. 
