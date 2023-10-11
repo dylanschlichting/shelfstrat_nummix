@@ -38,8 +38,9 @@ Key analyses are presented here. There are scripts and notebooks to calculate
 
 ## Misc notes & quality control
 Miscellaneous analysis code, code tests, and QC checks are also stored in the ```/project/``` directory:
-> - ```/project/lmd_tests/``` contains a 15 day test run where the vertical mixing scheme is changed from GLS to KPP (Large et al., 1994) for a postdoc at PNNL.
+> - ```/project/lmd_tests/``` contains a 15 day test run where the vertical mixing scheme is changed from GLS to KPP (Large et al., 1994) for a postdoc at PNNL
 > - ```/project/boundary_tests/``` doubles the across-shore distance to test how the no gradient boundary condition affects instability development for the domain
+> - ```/project/check_energetics.ipynb``` checks how to properly define $u^\prime$ and $v^\prime$ for calculation of TKE, MKE, and EKE
 
 ## Key publications 
 > - Ruiz Xomchuk, V. I. (2020). Intraseasonal Variability in Northern Gulf of Mexico Hypoxia: Impacts of Baroclinic Instability, Rough Topography, and Exposure Duration (*Doctoral dissertation*).
