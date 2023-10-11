@@ -1,5 +1,5 @@
 # Shelfstrat - Idealized coastal shelf model
-```shelfstrat``` contains information required to run idealized ROMS simulations of submesoscale baroclinic instabilities over sloping bathymetry. Developed by Rob Hetland, as documented in Hetland (2017) *JPO*. Here, the model setup is modified to explore the relationship between numerical salinity mixing and surface fronts. ROMS is configured as part of COAWST ver. 3.7 for these simulations.
+```shelfstrat``` contains information required to run idealized ROMS simulations of submesoscale baroclinic instabilities over sloping bathymetry. Developed by Rob Hetland, as documented in Hetland (2017) *JPO*. Here, the model setup is modified to explore the relationship between numerical salinity mixing and surface fronts. ROMS is configured as part of COAWST ver. 3.7 for these simulations. ROMS ver. 3.9 is used in all simulations.
 ## Running the model
 Six input files are required to run ```shelfstrat```: the numerical grid, initial conditions, forcing (if applicable), a header file used to compile the model, a ROMS input file, and a slurm job script. The simulations are run on the Grace cluster from TAMU's HPRC resources. The key scripts and files are
 
@@ -36,9 +36,10 @@ Key analyses are presented here. There are scripts and notebooks to calculate
 > - Mean vertical salinity gradient $|\partial_z s|$ and vertical salinity diffusivity $\kappa_s$ ```Aks```
 > - Analyze mixing in salinity coordinates
 
-## Misc notes
-Miscellaneous analysis and code tests are also stored in this repository. For example,
+## Misc notes & quality control
+Miscellaneous analysis code, code tests, and QC checks are also stored in the ```/project/``` directory:
 > - ```/project/lmd_tests/``` contains a 15 day test run where the vertical mixing scheme is changed from GLS to KPP (Large et al., 1994) for a postdoc at PNNL.
+> - ```/project/boundary_tests/``` doubles the across-shore distance to test how the no gradient boundary condition affects instability development for the domain
 
 ## Key publications 
 > - Ruiz Xomchuk, V. I. (2020). Intraseasonal Variability in Northern Gulf of Mexico Hypoxia: Impacts of Baroclinic Instability, Rough Topography, and Exposure Duration (*Doctoral dissertation*).
