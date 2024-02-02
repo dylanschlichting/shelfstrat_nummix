@@ -1,18 +1,13 @@
-""" This script creates a grid file for an idealized near-field plume case to evaluate bottom traping by a bump
-"""
 import numpy as np
 import xarray as xr
-
 
 def make_grd(output='../project/shelfstrat_grd.nc',
              Hmin=5.0, 
              alpha=0.001,
-             ho=20., 
-             dh=0., 
-             wdh=1e4,
-             f=6.846773271669432e-05, #Coriolis, equal to 28 deg lat.  
-             dx=1e3, dy=1e3, #1000 m isotropic horizontal resolution
-             shp=(131, 259), #128 x 256 eta-rho,xi-rho points, originally 131 x 259 in shp(). MODIFIED for diurnal wind. 
+             ho=5., 
+             f=1e-4, #Coriolis, equal to 28 deg lat.  
+             dx=500, dy=500, #1000 m isotropic horizontal resolution
+             shp=(195, 195), #Produces 97 by 97 km domain
              spherical=True,
              angle=0.):
 
@@ -38,17 +33,11 @@ def make_grd(output='../project/shelfstrat_grd.nc',
     grd.f.attrs['units'] = 'degree'
 
     #Edit of Vero's code below taken directly from Rob's shelfstrat repo: 
-
     cff1 = (grd.y_rho - grd.y_rho[1])*alpha + Hmin
-    cff1 += 0.01 * np.random.randn(*grd.y_rho.shape) * cff1 # 0.01 is for the bathymetry noise! Changed to 0.04 for sensitivity studies of numerical mixing 
+    cff1 += 0.01 * np.random.randn(*grd.y_rho.shape) * cff1 # 0.01 is for the bathymetry noise!
     cff1[0] = cff1[1]
     cff2 = Hmin
     grd['h'] = np.maximum(cff1, cff2)
-    # create a depth profile with slope alpha, a value of Hmin
-    # and a bump localized approximately at a depth ho, as a function of step height (dh) and width (wdh).
-   # cff1 = alpha * grd.y_rho + .25 * dh * np.tanh((grd.y_rho - (ho - Hmin) / alpha) / wdh * 4) + 2 * Hmin
-   # cff1 += 0.01 * np.random.randn(*grd.y_rho.shape) * cff1
-    #grd['h'] = np.maximum(cff1, Hmin)
 
     grd.h.attrs['long_name'] = 'Final bathymetry at RHO-points'
     grd.h.attrs['units'] = 'meter'

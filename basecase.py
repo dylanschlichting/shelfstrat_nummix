@@ -61,7 +61,7 @@ class ROMS_in(object):
         self.variables[key] = str(val)
 
 
-def run_case(case, z0=0.003, dt=30.0, rootdir='./runs/'):
+def run_case(case, z0=0.003, dt=30.0, rootdir='./runs/across_shelf_long/'):
 
     print('BUILD new case')
     if not os.path.exists(rootdir):
@@ -71,17 +71,21 @@ def run_case(case, z0=0.003, dt=30.0, rootdir='./runs/'):
     frc_str = 'uwind_' + str(case['frc']['uwind'])+'_windtype_' + str(int(case['frc']['wind_freq']))
     dx_str = 'dx_' + str(int(case['grd']['dx'])) # the grid resolution is isotropic so dx = dy.
     ID = grd_str + '_' + frc_str + '_' + dx_str
-    grd_name = rootdir + 'shelf_' + grd_str + '_' + dx_str + '_grd.nc'
+    # grd_name = rootdir + 'shelf_' + grd_str + '_' + dx_str + '_f_43N' + '_grd.nc'
+    # frc_name = rootdir + 'shelf_' + frc_str + '_' + dx_str + '_frc.nc'
+    # ini_name = rootdir + 'shelf_' + grd_str + '_' + dx_str + '_f_43N' + '_ini.nc'
+    
+    grd_name = rootdir + 'shelf_' + grd_str + '_' + dx_str + '_f_43N_' + 'across2x_ensmb7' + '_grd.nc'
     frc_name = rootdir + 'shelf_' + frc_str + '_' + dx_str + '_frc.nc'
-    ini_name = rootdir + 'shelf_' + grd_str + '_' + dx_str + '_ini.nc'
+    ini_name = rootdir + 'shelf_' + grd_str + '_' + dx_str + '_f_43N_' + 'across2x_ensmb7' + '_ini.nc'
+
 
     if not os.path.isfile(grd_name):
         make_grd(grd_name,
                  Hmin=case['grd']['Hmin'],
                  alpha=case['grd']['alpha'],
                  ho=case['grd']['ho'],
-                 dh=case['grd']['dh'],
-                 wdh=case['grd']['wdh'],
+
                  f=case['grd']['f'],
                  dx=case['grd']['dx'],
                  dy=case['grd']['dy'],
@@ -115,20 +119,20 @@ def run_case(case, z0=0.003, dt=30.0, rootdir='./runs/'):
                  balanced_run=True)
 
     return
-
+#shp:97 by 97 km. 
+#shp: 51 by 51 for 2000 m, 99X99 for 1000 m case, 195x195 for 500 m case.
+#387x387 for the 250 m case
 if __name__ == '__main__':
 
     case = {'grd': {'Hmin': 5.0,
                     'alpha': 0.001,
                     'ho': 5.,
-                    'dh': 0.,
-                    'wdh': 1e4,
-                    'f': 1e-4,# 6.846773271669432e-05 for 28N
-                    'dx': 5e2, #originally 1000
-                    'dy': 5e2,
-                    'shp': (195, 195), #Originally 131X259 @ 1km res (-3 to each index for actual dim), modified for diurnal wind. 
+                    'f': 1e-4,# 6.846773271669432e-05 for 28N, 1e-4 for 43N
+                    'dx': 500, #originally 1000, then 500, then 250
+                    'dy': 500,
+                    'shp': (390, 195), #195x195 for original domain
                     },
-            'frc': {'uwind': 0, #5.8 to produce ~0.1 Pa, 1.83 to produce ~0.01 Pa downwelling favorable winds, 0.57 to produce 0.001.  
+            'frc': {'uwind': 0, 
                     'vwind': 0.,
                     'Cd': 1.5e-3,
                     'wind_freq': 2., #2 for diurnal, 4 for semidiurnal
@@ -138,7 +142,7 @@ if __name__ == '__main__':
                     'Tramp': 3.,
                     'Tflat': 3.,
                     },
-            'ini': {'zlevs': 30,
+            'ini': {'zlevs': 30, # Originally 30 
                     'theta_s': 5.,
                     'theta_b': .4,
                     'hc': 5.,
