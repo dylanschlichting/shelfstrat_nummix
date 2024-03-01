@@ -1,5 +1,5 @@
 # Shelfstrat - Idealized coastal shelf model
-```shelfstrat``` contains information required to run idealized ROMS simulations of submesoscale baroclinic instabilities over sloping bathymetry. Developed by Rob Hetland, as documented in Hetland (2017) *JPO*. Here, the model setup is modified to explore the relationship between numerical salinity mixing and surface fronts. ROMS is configured as part of COAWST ver. 3.7 for these simulations. ROMS ver. 3.9 is used in all simulations.
+```shelfstrat``` contains information required to run idealized ROMS simulations of submesoscale baroclinic instabilities over sloping bathymetry as described in Schlichting et al. 2024 *JAMES*. Developed by Rob Hetland, as documented in Hetland (2017) *JPO*. Here, the model setup is modified to explore the relationship between numerical salinity mixing and surface fronts. ROMS is configured as part of COAWST ver. 3.7 for these simulations. ROMS ver. 3.9 is used in all simulations.
 ## Running the model
 Six input files are required to run ```shelfstrat```: the numerical grid, initial conditions, forcing (if applicable), a header file used to compile the model, a ROMS input file, and a slurm job script. The simulations are run on the Grace cluster from TAMU's HPRC resources. The key scripts and files are
 
@@ -14,7 +14,7 @@ Six input files are required to run ```shelfstrat```: the numerical grid, initia
 Key points of the unforced and wind-forced configurations are documented for reference:
 > - Standard output frequency: 1 hour
 > - 500 m isotropic lateral grid resolution
-> - 97 x 97 km in the along- and across-shore directions for all cases except tracer advection ensembles
+> - 97 x 97 km in the along- and across-shore directions for all cases except tracer advection ensemble
 > > - 192 x 192 x 30 grid points
 > > - ```Vtransform=2,Vstretching=4```, ```\theta_s = 5.0, \theta_b = 0.4```
 > > - Tested ```\theta_s = 3.0, \theta_b = 1``` and ```\theta_s = 2.5, \theta_b = 2.5``` for vertical resolution experiments
@@ -23,17 +23,20 @@ Key points of the unforced and wind-forced configurations are documented for ref
 > - MPDATA for momentum and tracer advection
 > > - HSIMT and U3HC4 used in tracer advection experiments
 > - No explicit lateral mixing (viscosity or diffusivity coefficients) applied
-> - Calculates online physical and numerical mixing with average files.
+> - Calculates online physical and numerical mixing with average files
 > > - Physical mixing is the destruction of salinity variance $\chi^s = 2 \mathbf{\kappa} \left(\nabla s \right)^2$ (Osborn & Cox, 1972)
 > > - Numerical mixing is defined using the Burchard and Rennau (2008) *OM* algorithm: $\mathcal{M}_{num} = \frac{\mathcal{A}(s^2)-(\mathcal{A})^2}{\Delta t}$,
 > > > - $\mathcal{A}$ is the advection operator
 > > > - $\Delta t$ is the model timestep
+> - Tracer advection ensemble:
+> > - Input files provided in ```project/tracer_advection_example```
 
-## Output analysis
+## Output analysis and QC
 Key analyses are presented here. There are scripts and notebooks to calculate
 > - Volume-integrated physical ```Akr``` and numerical mixing ```dye_03```(see Schlichting et al. (2023) *JAMES*)
 > - Volume-integrated EKE, MKE, and TKE
-> - Mean vertical salinity gradient $|\partial_z s|$ and vertical salinity diffusivity $\kappa_s$ ```Aks```
+> - Alongshore and ensemble averaged tracer cross sections
+> - Check lateral and vertical resolution parameters for the idealized and realistic model
 
 ## Key publications
 > - Ruiz Xomchuk, V. I. (2020). Intraseasonal Variability in Northern Gulf of Mexico Hypoxia: Impacts of Baroclinic Instability, Rough Topography, and Exposure Duration (*Doctoral dissertation*).
